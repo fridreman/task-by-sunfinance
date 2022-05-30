@@ -1,27 +1,20 @@
 App\Entity\Client:
   collectionOperations:
-    # get paginated list of clients(access: only user)
     get:
       security: 'is_granted("ROLE_USER")'
-    # add client
     post: ~
   itemOperations:
-    # view client and get client
     get: ~
-    # update client
     put: ~
-    # delete client
     delete: ~
 
 App\Entity\Notification:
   collectionOperations:
-    # get paginated list of notification(access: only user)
     get:
       security: 'is_granted("ROLE_USER")'
       filters: [ 'notification.order_filter', 'notification.search_filter' ]
-    # add notification(access: only user)
     post:
-#      security: 'is_granted("ROLE_USER")'
+      security: 'is_granted("ROLE_USER")'
       method: "POST"
       input: "App\\Dto\\NotificationMultipleRequest"
       controller: "App\\Controller\\Notification\\CreateMultipleAction"
@@ -37,6 +30,5 @@ App\Entity\Notification:
                     items:
                       $ref: "#/components/schemas/Notification"
   itemOperations:
-    # get notification(access: only user)
     get:
       security: 'is_granted("ROLE_USER")'
