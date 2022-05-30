@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
@@ -13,10 +15,8 @@ final class NotificationMultipleRequestDataTransformer implements DataTransforme
 {
     public function __construct(
         private ValidatorInterface $validator,
-        private ClientRepository   $clientRepository
-    )
-    {
-    }
+        private ClientRepository   $clientRepository,
+    ) {}
 
     /**
      * {@inheritdoc}

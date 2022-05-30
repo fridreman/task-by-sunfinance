@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Sender;
 
 use App\Entity\Notification;
@@ -10,9 +12,9 @@ class EmailSender implements NotificationSenderInterface
 {
     const TYPE = "email";
 
-    public function __construct(private MailerInterface $mailer)
-    {
-    }
+    public function __construct(
+        private MailerInterface $mailer,
+    ) {}
 
     public function send(Notification $notification): bool
     {

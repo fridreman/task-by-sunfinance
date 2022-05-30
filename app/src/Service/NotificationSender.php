@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Notification;
@@ -12,15 +14,17 @@ final class NotificationSender
     /**
      * @param iterable<NotificationSenderInterface> $senders
      */
-    public function __construct(private iterable $senders, private EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(
+        private iterable $senders,
+        private EntityManagerInterface $entityManager,
+    ) {}
 
-    #[NoReturn] public function send(Notification $notification)
+    #[NoReturn]
+    public function send(Notification $notification)
     {
         foreach ($this->senders as $sender) {
-            if ($sender->supportsSending($notification) && $sender->send($notification)) {
-                $notification->setDelivered(true);
+            if ($sender->supportsSending($notification)) {
+                $notification->setDelivered($sender->send($notification));
             }
         }
 

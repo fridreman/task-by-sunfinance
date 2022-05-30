@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Notification;
 
 use ApiPlatform\Core\OpenApi\Model\Response;
@@ -16,9 +18,7 @@ final class CreateMultipleAction extends AbstractController
         private ValidatorInterface     $validator,
         private EntityManagerInterface $entityManager,
         private MessageBusInterface    $bus,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array<Notification> $data
