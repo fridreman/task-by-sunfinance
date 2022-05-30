@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  nginx:
+    build: ./nginx
+    restart: ${RESTART_CONTAINERS}
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./app/public:/var/www/public
+    links:
+      - php
+    depends_on:
+      - php
+
+  php:
+    build: ./php
+    restart: ${RESTART_CONTAINERS}
+    volumes:
+      - ./app:/var/www
+      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
+    links:
+      - postgres
+      - rabbitmq
+      - mailhog
+    depends_on:
+      - rabbitmq
+      - postgres
+      - mailhog
+
+  postgres:
+    image: postgres:alpine3.15
+    restart: ${RESTART_CONTAINERS}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    restart: ${RESTART_CONTAINERS}
+    ports:
+      - '127.0.0.1:5672:5672'
+      - '127.0.0.1:15672:15672'
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: ${RESTART_CONTAINERS}
+    logging:
+      driver: 'none'  # disable saving logs
+    ports:
+      - '127.0.0.1:1025:1025'
+      - '127.0.0.1:8025:8025'
