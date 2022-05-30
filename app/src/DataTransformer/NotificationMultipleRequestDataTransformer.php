@@ -19,15 +19,17 @@ final class NotificationMultipleRequestDataTransformer implements DataTransforme
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param NotificationMultipleRequest $object
+     * @param string $to
+     * @param array $context
+     * @return array
      */
-    public function transform($data, string $to, array $context = [])
+    public function transform($object, string $to, array $context = []): array
     {
-        /** @var NotificationMultipleRequest $data */
-        $this->validator->validate($data, $context);
+        $this->validator->validate($object, $context);
 
         $notifications = [];
-        foreach ($data->getNotifications() as $item) {
+        foreach ($object->getNotifications() as $item) {
             if (!$client = $this->clientRepository->find($item['client'])) {
                 throw new ItemNotFoundException("Client {$item['client']} not found.");
             }
