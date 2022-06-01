@@ -13,6 +13,7 @@ Please do the following:
   - `bin/console --env=test doctrine:database:create`
   - `bin/console --env=test doctrine:schema:create`
   - `bin/phpunit`
+  - `bin/console messenger:consume async` - start MQ
 
 ### Services
 
